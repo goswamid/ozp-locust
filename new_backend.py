@@ -11,19 +11,23 @@ class Scenario(TaskSet):
                             headers={"Authorization": Scenario.auth},
                             verify=False)
 
-    @task(1)
     def hud(self):
         Scenario.get_req(self, "/api/self/notification/")
         Scenario.get_req(self, "/api/self/library/")
         Scenario.get_req(self, "/api/self/profile/")
 
-    @task(1)
     def center(self):
         Scenario.get_req(self, "/api/metadata/")
         Scenario.get_req(self, "/api/self/profile/")
         Scenario.get_req(self, "/api/storefront/")
         Scenario.get_req(self, "/api/self/notification/")
         Scenario.get_req(self, "/api/self/library/")
+
+    @task(1)
+    def run_scenario(self):
+        Scenario.hud(self)
+        Scenario.center(self)
+
 
 
 class WebsiteUser(HttpLocust):
